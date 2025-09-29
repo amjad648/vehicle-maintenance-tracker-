@@ -1,4 +1,6 @@
-export default function Header({onLogin, onSignup}) {
+import Profile from './Profile.jsx';
+
+export default function Header() {
   return (
     <header className="p-3 text-bg-dark">
       {" "}
@@ -40,26 +42,16 @@ export default function Header({onLogin, onSignup}) {
               </a>
             </li>{" "}
           </ul>{" "}
-          <form
-            className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
-            role="search"
-          >
-            {" "}
-            <input
-              type="search"
-              className="form-control form-control-dark text-bg-dark"
-              placeholder="Search..."
-              aria-label="Search"
-            />{" "}
-          </form>{" "}
+          
           <div className="text-end">
             {" "}
-            <button type="button" onClick={onLogin} className="btn btn-outline-light me-2">
+            {/* <button type="button" onClick={onLogin} className="btn btn-outline-light me-2">
               Login
             </button>{" "}
             <button type="button" onClick={onSignup} className="btn btn-secondary">
               Sign-up
-            </button>{" "}
+            </button>{" "} */}
+            <Profile />
           </div>{" "}
         </div>{" "}
       </div>{" "}
