@@ -1,10 +1,10 @@
 import React, {useEffect, useState, useContext} from "react";
 import { KeycloakContext } from '../KeycloakProvider';
 
-export default function VehicleDataTable ({headers}) {
+export default function VehicleDataTable ({headers, handleInvoices}) {
   const keycloak = useContext(KeycloakContext)
   const [vehiclesData, setVehiclesData] = useState([]);
-
+ 
   // useEffect(() => {
   //    axios.get('http://192.168.1.4:8080/api/vehicles').then(response => {
      
@@ -15,6 +15,8 @@ export default function VehicleDataTable ({headers}) {
   //   });
     
   // }, []);
+
+
 
   useEffect(() => {
     // Only fetch if token is available
@@ -45,6 +47,8 @@ export default function VehicleDataTable ({headers}) {
   }, [keycloak]);
 
   console.log(vehiclesData);
+
+  
   return (
     
   <div className="w-75 m-5 rounded-top overflow-hidden border">
@@ -66,8 +70,9 @@ export default function VehicleDataTable ({headers}) {
         <td>{vehicle.registration}</td>
         <td>
           <div>
-           <button className="btn btn-secondary btn-sm px-3 me-1">Edit</button>
-         <button className="btn btn-secondary btn-sm">Delete</button>
+           <button type="button" className="btn btn-secondary btn-sm px-3 me-1">Edit</button>
+           <button type="button" className="btn btn-secondary btn-sm me-1">Delete</button>
+           <button type="button" onClick={() => handleInvoices(vehicle.id)} className="btn btn-secondary btn-sm me-1">Invoices</button>
            </div>
         </td>
       

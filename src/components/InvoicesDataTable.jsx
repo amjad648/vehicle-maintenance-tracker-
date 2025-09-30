@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import { KeycloakContext } from '../KeycloakProvider';
 
-export default function InvoicesRendering ({headers}) {
+export default function InvoicesDataTable ({headers}) {
 
     const keycloak = useContext(KeycloakContext)
     const [invoicesData, setInvoicesData] = useState([]);
