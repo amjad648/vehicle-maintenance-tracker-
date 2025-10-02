@@ -1,50 +1,25 @@
 import React, {useEffect, useState, useContext} from "react";
 import { KeycloakContext } from '../KeycloakProvider';
+import { fetchVehicles } from "./services/vehicleService";
 
 export default function VehicleDataTable ({headers, handleInvoices}) {
   const keycloak = useContext(KeycloakContext)
   const [vehiclesData, setVehiclesData] = useState([]);
  
-  // useEffect(() => {
-  //    axios.get('http://192.168.1.4:8080/api/vehicles').then(response => {
-     
-  //     setVehiclesData(response.data.content);
-  //      }).
-  //   catch((error) => {
-  //     console.error('Error fetching vehicles data');
-  //   });
-    
-  // }, []);
-
-
-
+  
   useEffect(() => {
-    // Only fetch if token is available
+     // Only get if token is available
     if (keycloak?.token) {
-     // console.log('Keycloak token:', keycloak.token);
+     console.log('Keycloak token:', keycloak.token);
 
-      fetch('http://192.168.1.4:8080/api/vehicles', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${keycloak.token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          // Assuming response is paginated: { content: [...] }
-          setVehiclesData(data.content);
-        })
-        .catch(error => {
-          console.error('Error fetching vehicles data:', error);
-        });
-    }
-  }, [keycloak]);
+    async function getVehiclesData () {
+      const data = await fetchVehicles(keycloak.token)
+      setVehiclesData( data || [] );
+   };
+
+    getVehiclesData();
+  } 
+ }, [keycloak]);
 
   console.log(vehiclesData);
 

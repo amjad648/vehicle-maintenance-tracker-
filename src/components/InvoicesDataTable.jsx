@@ -1,51 +1,29 @@
 import React, {useEffect, useState, useContext} from "react";
 import { KeycloakContext } from '../KeycloakProvider';
+import { getInvoices } from "./services/invoiceService";
 
 export default function InvoicesDataTable ({headers}) {
 
     const keycloak = useContext(KeycloakContext)
     const [invoicesData, setInvoicesData] = useState([]);
-  
-    // useEffect(() => {
-    //    axios.get('http://192.168.1.4:8080/api/vehicles').then(response => {
-       
-    //     setVehiclesData(response.data.content);
-    //      }).
-    //   catch((error) => {
-    //     console.error('Error fetching vehicles data');
-    //   });
-      
-    // }, []);
-  
-    useEffect(() => {
-      // Only fetch if token is available
-      if (keycloak?.token) {
-       // console.log('Keycloak token:', keycloak.token);
-  
-        fetch('http://192.168.1.4:8080/api/invoices', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${keycloak.token}`,
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            // Assuming response is paginated: { content: [...] }
-            setInvoicesData(data.content);
-          })
-          .catch(error => {
-            console.error('Error fetching vehicles data:', error);
-          });
-      }
-    }, [keycloak]);
-  
-    console.log(invoicesData);
+   
+     
+ 
+    useEffect( () => {
+   // Only get if token is available
+   if (keycloak?.token) {
+    
+      async function fetchInvoices () {
+        const data = await getInvoices(keycloak.token);
+        setInvoicesData(data || []);
+      };
+
+      fetchInvoices();
+    }
+   }, [keycloak]);
+
+   console.log(invoicesData);
+
     return (
       
     <div className="w-75 m-5 rounded-top overflow-hidden border">
